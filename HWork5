@@ -2,7 +2,8 @@
 ;Here, e denotes the empty string.
 ;The ``language'' of this grammar is strings of the form: ai b j ck, where i, j, k >= 0
 ;(informally, a bunch of a's, a bunch of b's and a bunch of c's). Let us try and parse
-;the input: abbcccc.
+;the input: abbcccc
+
 
 (defun Afn(str)
  (print '( in Afn)) (print str)
