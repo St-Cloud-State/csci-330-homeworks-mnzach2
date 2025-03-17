@@ -1,0 +1,32 @@
+;S ==> ABC A ==> aA | e B ==> bB | e C ==> cC | e
+;Here, e denotes the empty string.
+;The ``language'' of this grammar is strings of the form: ai b j ck, where i, j, k >= 0
+;(informally, a bunch of a's, a bunch of b's and a bunch of c's). Let us try and parse
+;the input: abbcccc.
+
+(defun Afn(str)
+ (print '( in Afn)) (print str)
+(cond ((eql (car str) 'a) (setf x (Afn (cdr str))) ;;(print '(x is )) (print x)
+                          (cond 
+                              ((eql x nil)(append (cdr str)(list 'err)))
+                              ((eql (car x) 'b) (cdr x))
+                              (t (append (cdr str)(list 'err))) ))
+      ((eql (car str) 'b) (Bfn (cdr str)))
+      ((eql (car str) 'c)  (cdr str))
+      (t (append (cdr str)(list 'err)))))
+
+(defun Bfn(str)
+(print '( in Bfn)) (print str)
+(cond ( (and (eql (car str) 'a) (eql (cadr str) 'd)) (cdr (cdr str)))
+      ((eql (car str) 'b) (setf x (Bfn (cdr str)))
+                          (cond ((eql x nil)(append (cdr str)(list 'err)))
+                              ((eql (car x) 'a) (cdr x))
+                              (t (append (cdr str)(list 'err))) ) )
+      ((eql (car str) 'd)  (cdr str))
+      (t (append (cdr str)(list 'err)))))
+
+(defun Sfn (str)
+(print '( in Sfn)) (print str)
+(cond ((eql (car str)  'a) (Afn (cdr str )))
+      ((and (eql (car str) 'b) (eql (cadr str) 'a)) (Bfn (Afn (cddr str))))
+      (t (append (cdr str)(list 'err)))))
